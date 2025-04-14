@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Quest Adventures</title>
+    <style>
+        /* Base Styles - Mobile First Approach */
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4eff8a;
+            --accent-color: #ffcc00;
+            --highlight-color: #ff00ff;
+            --dark-bg: #0a0a2a;
+            --darker-bg: #000033;
+            --darkest-bg: #000022;
+            --card-bg: #1a1a4a;
+            --text-color: #ffffff;
+            --light-text: #c5c5ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Press Start 2P', system-ui, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 0.875rem;
+        }
+
+        /* Font Fallbacks */
+        @font-face {
+            font-family: 'Press Start 2P';
+            src: local('Press Start 2P'), url('https://fonts.cdnfonts.com/css/press-start-2p') format('woff2');
+            font-display: swap;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--darker-bg);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            border-bottom: 0.25rem solid var(--primary-color);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-shadow: 0.125rem 0.125rem 0 var(--accent-color), 0.25rem 0.25rem 0 var(--highlight-color);
+            z-index: 20;
+        }
+
+        .menu-toggle {
+            width: 2rem;
+            height: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            z-index: 20;
+        }
+
+        .menu-toggle span {
+            width: 100%;
+            height: 0.25rem;
+            background-color: var(--secondary-color);
+            border-radius: 0.125rem;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--darker-bg);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            z-index: 10;
+        }
+
+        nav.active {
+            max-height: 18.75rem;
+            border-bottom: 0.25rem solid var(--primary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 1rem;
+        }
+
+        nav ul li {
+            margin-bottom: 1rem;
+        }
+
+        nav ul li a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 1rem;
+            text-shadow: 0.0625rem 0.0625rem 0 #000000;
+            transition: all 0.3s;
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+            transform: translateX(0.5rem);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 70vh;
+            min-height: 20rem;
+            background-image: url('https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.5/img/loading-balls.gif');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 1rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 51, 0.7);
+            z-index: 1;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            text-shadow: 0.125rem 0.125rem 0 var(--highlight-color), 0.25rem 0.25rem 0 var(--accent-color);
+            animation: glow 2s infinite alternate;
+        }
+
+        .hero p {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            border-radius: 0.25rem;
+            border: 0.1875rem solid var(--accent-color);
+            box-shadow: 0.25rem 0.25rem 0 #000000;
+            transition: all 0.2s;
+        }
+
+        .cta-button:hover, .cta-button:focus {
+            transform: translate(-0.125rem, -0.125rem);
+            box-shadow: 0.375rem 0.375rem 0 #000000;
+            background-color: #ff8c8c;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 3rem 1rem;
+            background-color: var(--darkest-bg);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-color);
+            text-shadow: 0.125rem 0.125rem 0 var(--highlight-color);
+        }
+
+        .feature-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .feature-card {
+            width: 100%;
+            max-width: 20rem;
+            background-color: var(--card-bg);
+            border: 0.1875rem solid var(--secondary-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0.5rem 0.5rem 0 #000000;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover, .feature-card:focus {
+            transform: translateY(-0.625rem);
+            box-shadow: 0.5rem 1rem 0 #000000;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .feature-card p {
+            font-size: 0.875rem;
+            color: var(--light-text);
+        }
+
+        /* Game Gallery */
+        .game-gallery {
+            padding: 3rem 1rem;
+            background-color: var(--dark-bg);
+        }
+
+        .game-gallery h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+            text-shadow: 0.125rem 0.125rem 0 var(--highlight-color);
+        }
+
+        .games {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .game {
+            width: 100%;
+            max-width: 20rem;
+            border: 0.1875rem solid var(--primary-color);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            background-color: var(--card-bg);
+            box-shadow: 0.375rem 0.375rem 0 #000000;
+            transition: all 0.3s;
+        }
+
+        .game:hover, .game:focus {
+            transform: scale(1.03);
+            box-shadow: 0.5rem 0.5rem 0 #000000;
+        }
+
+        .game img {
+            width: 100%;
+            height: 12rem;
+            object-fit: cover;
+            border-bottom: 0.1875rem solid var(--primary-color);
+        }
+
+        .game-info {
+            padding: 1.25rem;
+        }
+
+        .game-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.625rem;
+            color: var(--accent-color);
+        }
+
+        .game-info p {
+            font-size: 0.875rem;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+        }
+
+        .game-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: var(--darkest-bg);
+            text-decoration: none;
+            font-size: 0.875rem;
+            border-radius: 0.25rem;
+            border: 0.125rem solid var(--text-color);
+            transition: all 0.2s;
+        }
+
+        .game-link:hover, .game-link:focus {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            padding: 3rem 1rem;
+            background-color: var(--darker-bg);
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-shadow: 0.125rem 0.125rem 0 var(--accent-color);
+        }
+
+        .newsletter p {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            color: var(--light-text);
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 25rem;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            padding: 1rem;
+            border: 0.1875rem solid var(--secondary-color);
+            border-radius: 0.25rem;
+            font-family: 'Press Start 2P', system-ui, sans-serif;
+            font-size: 0.875rem;
+            color: var(--darkest-bg);
+            width: 100%;
+        }
+
+        .newsletter-form button {
+            padding: 1rem;
+            background-color: var(--secondary-color);
+            color: var(--darkest-bg);
+            border: 0.1875rem solid var(--secondary-color);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-family: 'Press Start 2P', system-ui, sans-serif;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .newsletter-form button:hover, .newsletter-form button:focus {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 1rem;
+            background-color: var(--darkest-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            border-top: 0.25rem solid var(--primary-color);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-shadow: 0.0625rem 0.0625rem 0 var(--accent-color), 0.125rem 0.125rem 0 var(--highlight-color);
+        }
+
+        .footer-links ul {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .footer-links ul li a:hover, .footer-links ul li a:focus {
+            color: var(--accent-color);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .social-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+            border: 0.125rem solid var(--secondary-color);
+        }
+
+        .social-icon:hover, .social-icon:focus {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .social-icon i {
+            color: var(--text-color);
+            font-size: 1.25rem;
+        }
+
+        /* Animations */
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 0.625rem var(--secondary-color), 0 0 1.25rem var(--secondary-color), 0 0 1.875rem var(--highlight-color);
+            }
+            to {
+                text-shadow: 0 0 1.25rem var(--secondary-color), 0 0 1.875rem var(--secondary-color), 0 0 2.5rem var(--highlight-color);
+            }
+        }
+
+        /* Special Effects Classes */
+        .pixel-border {
+            border: 0.25rem solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color), var(--highlight-color));
+        }
+
+        .scanline {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scanline::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 0.125rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            animation: scanline 6s linear infinite;
+            z-index: 3;
+        }
+
+        @keyframes scanline {
+            0% {
+                top: 0;
+            }
+            100% {
+                top: 100%;
+            }
+        }
+
+        /* Container for consistent spacing */
+        .container {
+            width: 100%;
+            max-width: 75rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Media Queries for Responsive Design */
+        /* Tablets (portrait) */
+        @media (min-width: 48rem) {
+            body {
+                font-size: 1rem;
+            }
+
+            .logo {
+                font-size: 1.75rem;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+
+            nav {
+                position: static;
+                max-height: none;
+                overflow: visible;
+                width: auto;
+                background-color: transparent;
+            }
+
+            nav ul {
+                display: flex;
+                padding: 0;
+                gap: 1.5rem;
+            }
+
+            nav ul li {
+                margin-bottom: 0;
+            }
+
+            nav ul li a {
+                padding: 0;
+            }
+
+            nav ul li a:hover {
+                transform: scale(1.1);
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                max-width: 40rem;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .feature-cards {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .games {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .newsletter-form {
+                flex-direction: row;
+            }
+
+            .newsletter-form button {
+                width: auto;
+            }
+
+            footer {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+
+            .footer-links ul {
+                justify-content: flex-start;
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 64rem) {
+            header {
+                padding: 1.5rem 2rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                gap: 2rem;
+            }
+
+            .hero {
+                height: 80vh;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.125rem;
+            }
+
+            .features, .game-gallery, .newsletter {
+                padding: 5rem 2rem;
+            }
+
+            .features h2, .game-gallery h2, .newsletter h2 {
+                font-size: 2.25rem;
+                margin-bottom: 3rem;
+            }
+
+            .feature-cards {
+                justify-content: space-between;
+                flex-wrap: nowrap;
+            }
+
+            .feature-card {
+                max-width: none;
+                width: calc(33.333% - 2rem);
+            }
+
+            .games {
+                justify-content: space-between;
+            }
+
+            .game {
+                width: calc(50% - 1rem);
+                max-width: none;
+            }
+
+            .newsletter-form {
+                max-width: 40rem;
+            }
+
+            footer {
+                padding: 3rem 2rem;
+            }
+        }
+
+        /* Large Desktop */
+        @media (min-width: 80rem) {
+            .game {
+                width: calc(25% - 1.5rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">PIXEL QUEST</div>
+        <div class="menu-toggle" id="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav id="nav">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Games</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Community</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero scanline">
+        <div class="hero-content">
+            <h1>PIXEL QUEST ADVENTURES</h1>
+            <p>Embark on epic 8-bit journeys through worlds of wonder and danger. Relive the golden age of gaming with our catalog of retro masterpieces.</p>
+            <a href="#" class="cta-button">PLAY NOW</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2>GAME FEATURES</h2>
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>CLASSIC GAMEPLAY</h3>
+                    <p>Experience the timeless mechanics that defined a generation of gaming. Simple to learn, difficult to master.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>GLOBAL LEADERBOARDS</h3>
+                    <p>Compete with players worldwide and fight for the top spot on our real-time leaderboards.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>WEEKLY UPDATES</h3>
+                    <p>New games and features added regularly. Check back every week for fresh retro content.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="game-gallery">
+        <div class="container">
+            <h2>FEATURED GAMES</h2>
+            <div class="games">
+                <div class="game">
+                    <img src="/api/placeholder/400/240" alt="Cosmic Defender">
+                    <div class="game-info">
+                        <h3>COSMIC DEFENDER</h3>
+                        <p>Protect Earth from waves of alien invaders in this space shooter classic.</p>
+                        <a href="#" class="game-link">PLAY</a>
+                    </div>
+                </div>
+                <div class="game">
+                    <img src="/api/placeholder/400/240" alt="Dungeon Crawler">
+                    <div class="game-info">
+                        <h3>DUNGEON CRAWLER</h3>
+                        <p>Navigate through pixel perfect mazes and defeat monsters to discover ancient treasures.</p>
+                        <a href="#" class="game-link">PLAY</a>
+                    </div>
+                </div>
+                <div class="game">
+                    <img src="/api/placeholder/400/240" alt="Neon Racer">
+                    <div class="game-info">
+                        <h3>NEON RACER</h3>
+                        <p>Speed through synthwave cities in this high-octane arcade racing experience.</p>
+                        <a href="#" class="game-link">PLAY</a>
+                    </div>
+                </div>
+                <div class="game">
+                    <img src="/api/placeholder/400/240" alt="Pixel Platformer">
+                    <div class="game-info">
+                        <h3>PIXEL PLATFORMER</h3>
+                        <p>Jump and dash through challenging levels in this precision platformer.</p>
+                        <a href="#" class="game-link">PLAY</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <h2>JOIN OUR QUEST</h2>
+            <p>Subscribe to our newsletter for exclusive game releases, retro gaming tips, and community events.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email">
+                <button type="submit">SUBSCRIBE</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">PIXEL QUEST</div>
+        <div class="footer-links">
+            <ul>
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="social-icons">
+            <a href="#" class="social-icon"><i>T</i></a>
+            <a href="#" class="social-icon"><i>F</i></a>
+            <a href="#" class="social-icon"><i>I</i></a>
+            <a href="#" class="social-icon"><i>D</i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle functionality
+        const menuToggle = document.getElementById('menu-toggle');
+        const nav = document.getElementById('nav');
+        
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
