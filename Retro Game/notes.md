@@ -320,7 +320,42 @@ const nav = document.getElementById('nav');
 menuToggle.addEventListener('click', () => {
     nav.classList.toggle('active');
 });
+
+
 ```
+
+- <script> Tag
+- This is where we write JavaScript code. It tells the browser: “Hey, here’s some logic I want to run.
+
+```javascript
+const menuToggle = document.getElementById('menu-toggle');
+```
+
+You're saying: "Go find the HTML element with the ID of 'menu-toggle' and store it in a variable called menuToggle.
+
+```javascript
+const nav = document.getElementById('nav');
+```
+
+- You're doing the same thing here: finding the element with ID 'nav', which is probably your navigation menu.
+
+```javascript
+menuToggle.addEventListener('click', () => { ... });
+```
+
+- This says: “Hey browser, when someone clicks on menuToggle (our button), do something.”
+
+addEventListener is a way to listen for events like clicking, typing, etc.
+
+```javascript
+nav.classList.toggle('active');
+```
+
+- This is what happens when the button is clicked.
+
+- It adds or removes a class called "active" on the navigation element.
+
+- If the "active" class is already there, it removes it. If it’s not there, it adds it.
 
 **What:** JavaScript code that toggles the mobile navigation menu.
 

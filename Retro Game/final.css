@@ -85,7 +85,7 @@ nav {
 
 nav.active {
     max-height: 18.75rem;
-    border-bottom: 0.25rem solid var(--primary-color);
+    border-bottom: 0.25rem solid var(--primary-color); 
 }
 
 nav ul {
